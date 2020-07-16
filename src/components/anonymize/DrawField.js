@@ -1,19 +1,73 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable new-cap */
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { SketchField, Tools } from 'react-sketch2';
 
 const { fabric } = require('fabric');
 
+const RIGHT_ARROW = 39;
+const LEFT_ARROW = 37;
+
 const DrawField = ({ images }) => {
   const sketch = useRef();
+  const [current, setCurrent] = useState(0);
+  const [canvases, setCanvases] = useState({});
 
   useEffect(() => {
-    setCanvasImage(images[0]);
-  }, []);
+    document.addEventListener('keydown', handleKeyDown);
 
-  const setCanvasImage = (image) => {
-    if (sketch && sketch.current) {
+    if (current in canvases) {
+      setCanvas(current);
+    } else {
+      setCanvasImage(current);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [current, images]);
+
+  const handleKeyDown = (event) => {
+    switch (event.keyCode) {
+    case RIGHT_ARROW:
+      increment();
+      break;
+    case LEFT_ARROW:
+      decrement();
+      break;
+    default:
+      break;
+    }
+  };
+
+  const increment = () => {
+    if (current + 1 < images.length) {
+      const newCanvases = { ...canvases };
+      newCanvases[current] = sketch.current.toJSON();
+      setCanvases(newCanvases);
+      setCurrent(current + 1);
+    }
+  };
+
+  const decrement = () => {
+    if (current - 1 >= 0) {
+      const newCanvases = { ...canvases };
+      newCanvases[current] = sketch.current.toJSON();
+      setCanvases(newCanvases);
+      setCurrent(current - 1);
+    }
+  };
+
+  const setCanvas = (index) => {
+    const json = canvases[index];
+    sketch.current.fromJSON(json);
+  };
+
+  const setCanvasImage = (index) => {
+    if (sketch && sketch.current && images && images[current]) {
+      console.log(images);
+      const image = images[index];
+
       const canvas = sketch.current._fc;
       const newWidth = image.width * (canvas.height / image.height);
 
