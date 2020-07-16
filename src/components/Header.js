@@ -21,7 +21,7 @@ const Header = ({ landing }) => {
 
   const BackButton = () => {
     return (
-      <button className="header-chevron" type="button">
+      <button className="header-chevron transparent" type="button">
         <FontAwesomeIcon
           icon={faChevronLeft}
           color="#0D85FE"

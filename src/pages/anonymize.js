@@ -55,7 +55,7 @@ class AnonymizePage extends Component {
 
   render() {
     return (
-      <Container style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <Container style={{ alignItems: 'center', justifyContent: 'center', width: '60vw' }}>
         <div className="title">Draw over any names or profile pictures.</div>
         {this.state.loading ? <Loading /> : <DrawField images={this.state.images} />}
       </Container>
