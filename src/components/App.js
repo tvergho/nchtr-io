@@ -2,7 +2,7 @@ import React from 'react';
 import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
-import { LandingPage, UploadPage } from '../pages';
+import { LandingPage, UploadPage, AnonymizePage } from '../pages';
 
 const App = (props) => {
   return (
@@ -11,6 +11,7 @@ const App = (props) => {
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route path="/upload" component={UploadPage} />
+          <Route path="/anonymize" component={AnonymizePage} />
           <Route component={LandingPage} />
         </Switch>
       </div>

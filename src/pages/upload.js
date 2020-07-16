@@ -2,8 +2,10 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component, createRef } from 'react';
 import Dropzone from 'react-dropzone';
-import { UploadPrompt } from '../components/upload';
+import { connect } from 'react-redux';
+import { UploadPrompt, ProgressBar } from '../components/upload';
 import Container from '../components/Container';
+import { getSignedURL } from '../actions';
 
 const dropzoneRef = createRef();
 
@@ -14,26 +16,33 @@ const openDialog = () => {
 };
 
 class UploadPage extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   onDrop = (files) => {
-    console.log(files[0].name);
+    this.props.getSignedURL(files);
   }
 
   render() {
     return (
-      <Dropzone ref={dropzoneRef} onDrop={this.onDrop} accept="image/*">
+      <Dropzone ref={dropzoneRef} onDrop={this.onDrop} accept="image/jpeg, image/png">
         {({ getRootProps, getInputProps, isDragActive }) => (
-          <Container
-            style={{
-              alignItems: 'center', justifyContent: 'center', width: '40vw', opacity: isDragActive ? 0.5 : 1,
-            }}
-            rootProps={getRootProps}
-          >
-            <UploadPrompt open={openDialog} inputProps={getInputProps} />
-          </Container>
+          <>
+            <Container
+              style={{
+                alignItems: 'center', justifyContent: 'center', width: '40vw', opacity: isDragActive ? 0.5 : 1,
+              }}
+              rootProps={getRootProps}
+            >
+              <UploadPrompt open={openDialog} inputProps={getInputProps} />
+            </Container>
+            <ProgressBar />
+          </>
         )}
       </Dropzone>
     );
   }
 }
 
-export default UploadPage;
+export default connect(null, { getSignedURL })(UploadPage);

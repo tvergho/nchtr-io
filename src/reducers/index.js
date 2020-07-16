@@ -2,10 +2,10 @@
 // this defines what your store state will look like
 import { combineReducers } from 'redux';
 
-import CountReducer from './count-reducer';
+import FileReducer from './file-reducer';
 
 const rootReducer = combineReducers({
-  count: CountReducer,
+  file: FileReducer,
 });
 
 export default rootReducer;

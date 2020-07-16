@@ -51,7 +51,7 @@ button:active {
 
 .container {
   width: 50vw;
-  height: 100vh;
+  height: calc(100vh - 90px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,12 +117,13 @@ header {
   }
 }
 
-.upload-title {
+.title {
   font-size: 48px;
   font-weight: 300;
   color: rgba(109, 114, 120, 0.8);
   text-align: center;
 }
+
 .upload-subtitle {
   font-size: 36px;
   font-weight: 300;
@@ -130,6 +131,7 @@ header {
   text-align: center;
   margin-top: 20px;
 }
+
 .upload-button {
   font-weight: 300;
   font-size: 36px;
@@ -140,6 +142,15 @@ header {
   div {
     margin-left: 15px;
   }
+}
+
+.upload-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 20px;
+  background-color: $base-color;
+  transition: width 0.2s;
 }
 
 @media screen and (max-width: 960px) {

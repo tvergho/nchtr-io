@@ -1,20 +1,8 @@
-// keys for actiontypes
+/* eslint-disable import/no-cycle */
 export const ActionTypes = {
-  INCREMENT: 'INCREMENT',
-  DECREMENT: 'DECREMENT',
+  SET_IMAGE_LOADING: 'SET_IMAGE_LOADING',
+  SET_IMAGES: 'SET_IMAGES',
+  SET_IMAGE_URLS: 'SET_IMAGE_URLS',
 };
 
-
-export function increment() {
-  return {
-    type: ActionTypes.INCREMENT,
-    payload: null,
-  };
-}
-
-export function decrement() {
-  return {
-    type: ActionTypes.DECREMENT,
-    payload: null,
-  };
-}
+export * from './file-actions';
