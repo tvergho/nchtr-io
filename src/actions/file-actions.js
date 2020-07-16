@@ -6,7 +6,7 @@ const axios = require('axios');
 
 const API_URL = 'https://zzpl0okib5.execute-api.us-east-1.amazonaws.com/dev';
 
-export function uploadImage() {
+function upload() {
   return (dispatch, getState) => {
     const { files, uploadUrls } = getState().file;
 
@@ -33,7 +33,7 @@ export function uploadImage() {
   };
 }
 
-export function getSignedURL(files) {
+export function uploadImages(files) {
   const extensions = [];
   const fileTypes = [];
   for (const file of files) {
@@ -63,7 +63,7 @@ export function getSignedURL(files) {
       .then((response) => {
         const { uploadURLs, acceptedFilenames } = response.data;
         dispatch({ type: ActionTypes.SET_IMAGE_URLS, payload: { urls: uploadURLs, names: acceptedFilenames } });
-        dispatch(uploadImage());
+        dispatch(upload());
       });
   };
 }

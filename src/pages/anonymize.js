@@ -22,25 +22,27 @@ class AnonymizePage extends Component {
   }
 
   componentDidMount() {
-    this.props.filenames.forEach((name, index) => {
-      const img = new Image();
-      img.onload = () => {
-        this.setState((prevState) => {
-          const images = [...prevState.images];
-          images[index] = img;
-          return { images };
-        });
-      };
-      img.onerror = () => {
-        if (!this.state.retries.has(name) || this.state.retries.get(name) < 10) {
-          this.setState((prevState) => ({
-            retries: prevState.retries.update(name, 1, (value) => value + 1),
-          }));
-          setTimeout(() => { img.src = `${BUCKET_URL}/${name}?${new Date().getTime()}`; }, 200);
-        }
-      };
-      img.src = `${BUCKET_URL}/${name}`;
-    });
+    setTimeout(() => {
+      this.props.filenames.forEach((name, index) => {
+        const img = new Image();
+        img.onload = () => {
+          this.setState((prevState) => {
+            const images = [...prevState.images];
+            images[index] = img;
+            return { images };
+          });
+        };
+        img.onerror = () => {
+          if (!this.state.retries.has(name) || this.state.retries.get(name) < 10) {
+            this.setState((prevState) => ({
+              retries: prevState.retries.update(name, 1, (value) => value + 1),
+            }));
+            setTimeout(() => { img.src = `${BUCKET_URL}/${name}?${new Date().getTime()}`; }, 500);
+          }
+        };
+        img.src = `${BUCKET_URL}/${name}`;
+      });
+    }, 1000);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -55,7 +57,7 @@ class AnonymizePage extends Component {
     return (
       <Container style={{ alignItems: 'center', justifyContent: 'center' }}>
         <div className="title">Draw over any names or profile pictures.</div>
-        {this.state.loading ? <Loading /> : <DrawField />}
+        {this.state.loading ? <Loading /> : <DrawField images={this.state.images} />}
       </Container>
     );
   }

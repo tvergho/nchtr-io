@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 import { UploadPrompt, ProgressBar } from '../components/upload';
 import Container from '../components/Container';
-import { getSignedURL } from '../actions';
+import { uploadImages } from '../actions';
 
 const dropzoneRef = createRef();
 
@@ -21,7 +21,7 @@ class UploadPage extends Component {
   }
 
   onDrop = (files) => {
-    this.props.getSignedURL(files);
+    this.props.uploadImages(files);
   }
 
   render() {
@@ -45,4 +45,4 @@ class UploadPage extends Component {
   }
 }
 
-export default connect(null, { getSignedURL })(UploadPage);
+export default connect(null, { uploadImages })(UploadPage);
