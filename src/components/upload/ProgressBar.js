@@ -12,7 +12,7 @@ const ProgressBar = ({
     percent = Math.max(10, percent);
   }
 
-  if (percent >= 100 && isFinished) {
+  if (percent >= 100 && isFinished && onFinishedRoute.length > 0) {
     clearLoading();
     const history = useHistory();
     setTimeout(() => { history.push(`/${onFinishedRoute}`); }, 300);

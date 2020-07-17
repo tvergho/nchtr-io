@@ -3,9 +3,11 @@
 import { combineReducers } from 'redux';
 
 import FileReducer from './file-reducer';
+import ResponseReducer from './response-reducer';
 
 const rootReducer = combineReducers({
   file: FileReducer,
+  response: ResponseReducer,
 });
 
 export default rootReducer;

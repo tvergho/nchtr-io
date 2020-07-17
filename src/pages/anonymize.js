@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import Container from '../components/Container';
 import { DrawField, Loading } from '../components/anonymize';
 import { ProgressBar } from '../components/upload';
-import { swapFiles, updateImages, clearLoading } from '../actions';
+import { updateImages, clearLoading, setCurrentCode } from '../actions';
 import withImages from '../utils/withImages';
 
 class AnonymizePage extends Component {
@@ -20,6 +20,7 @@ class AnonymizePage extends Component {
   }
 
   submit = (urls) => {
+    this.props.setCurrentCode();
     this.props.startLoading();
     this.props.updateImages(urls);
   }
@@ -31,10 +32,17 @@ class AnonymizePage extends Component {
           <div className="title">Draw over any names or profile pictures.</div>
           {this.props.loading ? <Loading /> : <DrawField images={this.props.images} swap={this.props.swap} onSubmit={this.submit} />}
         </Container>
-        <ProgressBar onFinishedRoute="" />
+        <ProgressBar onFinishedRoute={`${this.props.code}`} />
       </>
     );
   }
 }
 
-export default withImages(connect(null, { swapFiles, updateImages, clearLoading })(AnonymizePage));
+const mapStateToProps = (reduxState) => {
+  return {
+    code: reduxState.response.code,
+  };
+};
+
+
+export default withImages(connect(mapStateToProps, { updateImages, clearLoading, setCurrentCode })(AnonymizePage));
