@@ -34,6 +34,30 @@ const FileReducer = (state = initialState, action) => {
       loading: newLoading,
     };
   }
+  case ActionTypes.CLEAR_IMAGE_LOADING:
+    return {
+      ...state,
+      loading: [],
+    };
+  case ActionTypes.SWAP_FILES: {
+    const newFiles = [...state.files];
+    const newNames = [...state.filenames];
+    const { i, j } = action.payload;
+
+    const tempFile = newFiles[i];
+    newFiles[i] = newFiles[j];
+    newFiles[j] = tempFile;
+
+    const tempName = newNames[i];
+    newNames[i] = newNames[j];
+    newNames[j] = tempName;
+
+    return {
+      ...state,
+      files: newFiles,
+      filenames: newNames,
+    };
+  }
   default:
     return state;
   }

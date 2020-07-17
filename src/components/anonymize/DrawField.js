@@ -2,20 +2,17 @@
 /* eslint-disable new-cap */
 import React, { useRef, useEffect, useState } from 'react';
 import { SketchField, Tools } from 'react-sketch2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import SecondaryArrows from './SecondaryArrows';
 
 const { fabric } = require('fabric');
 
 const RIGHT_ARROW = 39;
 const LEFT_ARROW = 37;
 
-const DrawField = ({ images }) => {
+const DrawField = ({ images, swap }) => {
   const sketch = useRef();
   const [current, setCurrent] = useState(0);
   const [canvases, setCanvases] = useState({});
-  const [decrementHovering, setDecrementHovering] = useState(false);
-  const [incrementHovering, setIncrementHovering] = useState(false);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -85,6 +82,23 @@ const DrawField = ({ images }) => {
     }
   };
 
+  const handleSwap = (j) => {
+    swap(current, j);
+    const newCanvases = { ...canvases };
+
+    if (j in canvases) {
+      newCanvases[current] = sketch.current.toJSON();
+      const tempCanvas = newCanvases[current];
+      newCanvases[current] = newCanvases[j];
+      newCanvases[j] = tempCanvas;
+    } else {
+      newCanvases[j] = sketch.current.toJSON();
+    }
+
+    setCanvases(newCanvases);
+    setCurrent(j);
+  };
+
   const setCanvas = (index) => {
     const canvas = sketch.current._fc;
     canvas.setWidth(images[index].width * (canvas.height / images[index].height));
@@ -126,33 +140,7 @@ const DrawField = ({ images }) => {
         lineWidth={10}
         style={{ marginTop: '15px' }}
       />
-      <div className="secondary-arrows">
-        <button type="button" className="transparent">
-          <FontAwesomeIcon
-            icon={faChevronLeft}
-            color="#0D85FE"
-            size="3x"
-            onMouseEnter={() => { setDecrementHovering(true); }}
-            onMouseLeave={() => { setDecrementHovering(false); }}
-            style={decrementHovering || current === 0 ? { opacity: 0.7 } : { opacity: 1 }}
-            onClick={() => { decrement(); }}
-          />
-        </button>
-
-        <div className="subtitle">{`${current + 1} of ${images.length}`}</div>
-
-        <button type="button" className="transparent">
-          <FontAwesomeIcon
-            icon={faChevronRight}
-            color="#0D85FE"
-            size="3x"
-            onMouseEnter={() => { setIncrementHovering(true); }}
-            onMouseLeave={() => { setIncrementHovering(false); }}
-            style={incrementHovering || current >= images.length - 1 ? { opacity: 0.7 } : { opacity: 1 }}
-            onClick={() => { increment(); }}
-          />
-        </button>
-      </div>
+      <SecondaryArrows increment={increment} decrement={decrement} current={current} images={images} handleSwap={handleSwap} />
     </>
   );
 };

@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 import { UploadPrompt, ProgressBar } from '../components/upload';
 import Container from '../components/Container';
-import { uploadImages } from '../actions';
+import { uploadImages, clearLoading } from '../actions';
 
 const dropzoneRef = createRef();
 
@@ -18,6 +18,10 @@ const openDialog = () => {
 class UploadPage extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentWillUnmount() {
+    this.props.clearLoading();
   }
 
   onDrop = (files) => {
@@ -45,4 +49,4 @@ class UploadPage extends Component {
   }
 }
 
-export default connect(null, { uploadImages })(UploadPage);
+export default connect(null, { uploadImages, clearLoading })(UploadPage);

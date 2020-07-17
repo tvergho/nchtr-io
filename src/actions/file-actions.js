@@ -67,3 +67,17 @@ export function uploadImages(files) {
       });
   };
 }
+
+export function clearLoading() {
+  return { type: ActionTypes.CLEAR_IMAGE_LOADING };
+}
+
+export function swapFiles(i, j) {
+  return {
+    type: ActionTypes.SWAP_FILES,
+    payload: {
+      i,
+      j,
+    },
+  };
+}

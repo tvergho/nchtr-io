@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Container from '../components/Container';
 import { DrawField, Loading } from '../components/anonymize';
+import { swapFiles } from '../actions';
 
 const BUCKET_URL = 'https://nchtr-photos-bucket.s3.amazonaws.com';
 const { Map } = require('immutable');
@@ -53,11 +54,23 @@ class AnonymizePage extends Component {
     }
   }
 
+  swap = (i, j) => {
+    this.props.swapFiles(i, j);
+
+    this.setState((prevState) => {
+      const images = [...prevState.images];
+      const tempImage = images[i];
+      images[i] = images[j];
+      images[j] = tempImage;
+      return { images };
+    });
+  }
+
   render() {
     return (
       <Container style={{ alignItems: 'center', justifyContent: 'center', width: '60vw' }}>
         <div className="title">Draw over any names or profile pictures.</div>
-        {this.state.loading ? <Loading /> : <DrawField images={this.state.images} />}
+        {this.state.loading ? <Loading /> : <DrawField images={this.state.images} swap={this.swap} />}
       </Container>
     );
   }
@@ -70,4 +83,4 @@ const mapStateToProps = (reduxState) => {
 };
 
 
-export default connect(mapStateToProps, null)(AnonymizePage);
+export default connect(mapStateToProps, { swapFiles })(AnonymizePage);
