@@ -17,7 +17,7 @@ const DrawField = ({ images, swap, onSubmit }) => {
   const [current, setCurrent] = useState(0); // Index of the currently displayed image.
   const [canvases, setCanvases] = useState({}); // All images that have been previously shown and edited.
 
-  // Triggers every time an image is added or the user changes images.
+  // Triggered every time an image is added or the user swaps images.
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     window.addEventListener('resize', handleResize);
@@ -51,7 +51,7 @@ const DrawField = ({ images, swap, onSubmit }) => {
   const handleResize = () => {
     const newHeight = 0.55 * window.innerHeight;
     const canvas = sketch.current._fc;
-    const newRatio = newHeight / images[current].height; // Aspet ratio is bound by the window's height.
+    const newRatio = newHeight / images[current].height; // Aspect ratio is bound by the window's height.
 
     // Scale the background image by converting to JSON.
     const json = sketch.current.toJSON();

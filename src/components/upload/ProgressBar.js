@@ -1,16 +1,21 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { clearLoading } from '../../actions';
 
-const ProgressBar = ({ progress, hasStarted, isFinished }) => {
+const ProgressBar = ({
+  progress, hasStarted, isFinished, onFinishedRoute, clearLoading,
+}) => {
   let percent = progress && progress.length > 0 ? Math.round(Math.min(...progress) * 100) : 0;
   if (hasStarted && progress.length > 0) {
     percent = Math.max(10, percent);
   }
 
   if (percent >= 100 && isFinished) {
+    clearLoading();
     const history = useHistory();
-    setTimeout(() => { history.push('/anonymize'); }, 300);
+    setTimeout(() => { history.push(`/${onFinishedRoute}`); }, 300);
   }
 
   return (
@@ -26,4 +31,4 @@ const mapStateToProps = (reduxState) => {
   };
 };
 
-export default connect(mapStateToProps, null)(ProgressBar);
+export default connect(mapStateToProps, { clearLoading })(ProgressBar);

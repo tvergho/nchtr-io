@@ -41,7 +41,7 @@ class UploadPage extends Component {
             >
               <UploadPrompt open={openDialog} inputProps={getInputProps} />
             </Container>
-            <ProgressBar />
+            <ProgressBar onFinishedRoute="anonymize" />
           </>
         )}
       </Dropzone>
