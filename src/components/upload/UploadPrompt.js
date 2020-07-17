@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
+import BlueButton from '../BlueButton';
 
 const UploadPrompt = ({ open, inputProps }) => {
   return (
@@ -9,10 +9,7 @@ const UploadPrompt = ({ open, inputProps }) => {
       <div className="title">Drag your screenshots anywhere on the page.</div>
       <div className="subtitle">or</div>
       <input {...inputProps()} />
-      <button type="button" className="upload-button" onClick={open}>
-        <FontAwesomeIcon icon={faCloudUploadAlt} color="white" size="2x" />
-        <div>Upload from files</div>
-      </button>
+      <BlueButton onClick={open} icon={faCloudUploadAlt} title="Upload from files" />
     </>
   );
 };

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 const ProgressBar = ({ progress, hasStarted, isFinished }) => {
   let percent = progress && progress.length > 0 ? Math.round(Math.min(...progress) * 100) : 0;
-  if (hasStarted) {
+  if (hasStarted && progress.length > 0) {
     percent = Math.max(10, percent);
   }
 

@@ -6,7 +6,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Container from '../components/Container';
 import { DrawField, Loading } from '../components/anonymize';
-import { swapFiles } from '../actions';
+import { ProgressBar } from '../components/upload';
+import { swapFiles, updateImages, clearLoading } from '../actions';
 
 const BUCKET_URL = 'https://nchtr-photos-bucket.s3.amazonaws.com';
 const { Map } = require('immutable');
@@ -29,6 +30,7 @@ class AnonymizePage extends Component {
         img.onload = () => {
           this.setState((prevState) => {
             const images = [...prevState.images];
+            img.setAttribute('crossOrigin', 'Anonymous');
             images[index] = img;
             return { images };
           });
@@ -48,10 +50,14 @@ class AnonymizePage extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.images !== prevState.images) {
-      if (this.state.images.length === this.props.filenames.length && this.props.filenames.length > 0) {
+      if (this.state.images.length === this.props.filenames.length && this.props.filenames.length > 0 && !this.state.images.includes(undefined)) {
         this.setState({ loading: false });
       }
     }
+  }
+
+  componentWillUnmount() {
+    this.props.clearLoading();
   }
 
   swap = (i, j) => {
@@ -66,12 +72,20 @@ class AnonymizePage extends Component {
     });
   }
 
+  submit = (urls) => {
+    this.setState({ loading: true });
+    this.props.updateImages(urls);
+  }
+
   render() {
     return (
-      <Container style={{ alignItems: 'center', justifyContent: 'center', width: '60vw' }}>
-        <div className="title">Draw over any names or profile pictures.</div>
-        {this.state.loading ? <Loading /> : <DrawField images={this.state.images} swap={this.swap} />}
-      </Container>
+      <>
+        <Container style={{ alignItems: 'center', justifyContent: 'center', width: '60vw' }}>
+          <div className="title">Draw over any names or profile pictures.</div>
+          {this.state.loading ? <Loading /> : <DrawField images={this.state.images} swap={this.swap} onSubmit={this.submit} />}
+        </Container>
+        <ProgressBar />
+      </>
     );
   }
 }
@@ -83,4 +97,4 @@ const mapStateToProps = (reduxState) => {
 };
 
 
-export default connect(mapStateToProps, { swapFiles })(AnonymizePage);
+export default connect(mapStateToProps, { swapFiles, updateImages, clearLoading })(AnonymizePage);

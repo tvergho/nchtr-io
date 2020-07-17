@@ -4,7 +4,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 const Loading = () => {
   return (
     <div style={{
-      height: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      height: '55vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}
     >
       <ClipLoader size={100} color="#0D85FE" />

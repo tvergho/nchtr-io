@@ -5,6 +5,7 @@ const initialState = {
   files: [],
   uploadUrls: [],
   filenames: [],
+  base64: [],
 };
 
 const FileReducer = (state = initialState, action) => {
@@ -21,6 +22,12 @@ const FileReducer = (state = initialState, action) => {
     return {
       ...state,
       files: action.payload,
+    };
+  }
+  case ActionTypes.SET_IMAGE_BASE64: {
+    return {
+      ...state,
+      base64: action.payload,
     };
   }
   case ActionTypes.SET_IMAGE_LOADING: {
