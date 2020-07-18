@@ -32,7 +32,7 @@ class AnonymizePage extends Component {
           <div className="title">Draw over any names or profile pictures.</div>
           {this.props.loading ? <Loading /> : <DrawField images={this.props.images} swap={this.props.swap} onSubmit={this.submit} />}
         </Container>
-        <ProgressBar onFinishedRoute={`${this.props.code}`} />
+        <ProgressBar onFinishedRoute={`${this.props.code}`} useBase64 />
       </>
     );
   }

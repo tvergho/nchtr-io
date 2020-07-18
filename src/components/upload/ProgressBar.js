@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { clearLoading } from '../../actions';
 
 const ProgressBar = ({
-  progress, hasStarted, isFinished, onFinishedRoute, clearLoading,
+  progress, hasStarted, isFinished, onFinishedRoute, clearLoading, useBase64,
 }) => {
   let percent = progress && progress.length > 0 ? Math.round(Math.min(...progress) * 100) : 0;
   if (hasStarted && progress.length > 0) {
@@ -15,7 +15,7 @@ const ProgressBar = ({
   if (percent >= 100 && isFinished && onFinishedRoute.length > 0) {
     clearLoading();
     const history = useHistory();
-    setTimeout(() => { history.push(`/${onFinishedRoute}`); }, 300);
+    setTimeout(() => { history.push(`/${onFinishedRoute}`, { useBase64 }); }, 300);
   }
 
   return (

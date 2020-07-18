@@ -18,6 +18,13 @@ const FileReducer = (state = initialState, action) => {
       filenames: names,
     };
   }
+  case ActionTypes.SET_FILENAMES: {
+    const { filenames } = action.payload;
+    return {
+      ...state,
+      filenames,
+    };
+  }
   case ActionTypes.SET_IMAGES: {
     return {
       ...state,

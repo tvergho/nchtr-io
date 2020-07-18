@@ -7,7 +7,8 @@ export const ActionTypes = {
   CLEAR_IMAGE_LOADING: 'CLEAR_IMAGE_LOADING',
   SWAP_FILES: 'SWAP_FILES',
   SET_CURRENT_CODE: 'SET_CURRENT_CODE',
+  SET_FILENAMES: 'SET_FILENAMES',
 };
 
 export * from './file-actions';
-export * from './response-actions';
+export * from './firebase-actions';

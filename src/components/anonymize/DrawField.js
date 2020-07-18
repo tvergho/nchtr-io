@@ -3,7 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { SketchField, Tools } from 'react-sketch2';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
-import SecondaryArrows from './SecondaryArrows';
+import SecondaryArrows from '../SecondaryArrows';
 import BlueButton from '../BlueButton';
 
 const { fabric } = require('fabric');
@@ -186,7 +186,7 @@ const DrawField = ({ images, swap, onSubmit }) => {
         lineWidth={10}
         style={{ marginTop: '15px' }}
       />
-      <SecondaryArrows increment={increment} decrement={decrement} current={current} images={images} handleSwap={handleSwap} />
+      <SecondaryArrows increment={increment} decrement={decrement} current={current} images={images} handleSwap={handleSwap} showSwap />
       <BlueButton title="Get responses" onClick={saveDrawings} icon={faCommentDots} />
     </>
   );
