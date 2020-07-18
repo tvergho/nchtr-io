@@ -8,6 +8,7 @@ export const ActionTypes = {
   SWAP_FILES: 'SWAP_FILES',
   SET_CURRENT_CODE: 'SET_CURRENT_CODE',
   SET_FILENAMES: 'SET_FILENAMES',
+  ADD_SHOWN_SCREENSHOT: 'ADD_SHOWN_SCREENSHOT',
 };
 
 export * from './file-actions';

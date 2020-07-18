@@ -55,3 +55,31 @@ export function getFilenamesFromFirebase(id) {
       });
   };
 }
+
+function getChildByIndex(snapshot, index) {
+  return Object.keys(snapshot.val())[index];
+}
+
+export function getRandomScreenshot() {
+  const screenshotsRef = db.ref('screenshots');
+
+  return (dispatch, getState) => {
+    screenshotsRef.once('value')
+      .then((snapshot) => {
+        let rand = Math.floor((Math.random() * snapshot.numChildren()));
+        let child = getChildByIndex(snapshot, rand);
+
+        const { shownScreenshots } = getState().response;
+
+        if (shownScreenshots.length < snapshot.numChildren()) {
+          while (child in getState().response.shownScreenshots) {
+            rand = Math.floor((Math.random() * snapshot.numChildren()));
+            child = getChildByIndex(snapshot, rand);
+          }
+        }
+
+        dispatch({ type: ActionTypes.ADD_SHOWN_SCREENSHOT, payload: child });
+        dispatch({ type: ActionTypes.SET_FILENAMES, payload: { filenames: snapshot.child(child).child('filenames').val() } });
+      });
+  };
+}

@@ -3,11 +3,11 @@
 import { combineReducers } from 'redux';
 
 import FileReducer from './file-reducer';
-import ResponseReducer from './response-reducer';
+import FirebaseReducer from './firebase-reducer';
 
 const rootReducer = combineReducers({
   file: FileReducer,
-  response: ResponseReducer,
+  response: FirebaseReducer,
 });
 
 export default rootReducer;
