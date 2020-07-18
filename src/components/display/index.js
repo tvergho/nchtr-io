@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
 import ScreenshotDisplay from './ScreenshotDisplay';
+import Modal from './Modal';
 
-export { ScreenshotDisplay };
+export { ScreenshotDisplay, Modal };

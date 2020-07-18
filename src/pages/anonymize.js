@@ -7,7 +7,9 @@ import { connect } from 'react-redux';
 import Container from '../components/Container';
 import { DrawField, Loading } from '../components/anonymize';
 import { ProgressBar } from '../components/upload';
-import { updateImages, clearLoading, setCurrentCode } from '../actions';
+import {
+  updateImages, clearLoading, setCurrentCode, clearUpload,
+} from '../actions';
 import withImages from '../utils/withImages';
 
 class AnonymizePage extends Component {
@@ -17,6 +19,7 @@ class AnonymizePage extends Component {
 
   componentWillUnmount() {
     this.props.clearLoading();
+    this.props.clearUpload();
   }
 
   submit = (urls) => {
@@ -45,4 +48,6 @@ const mapStateToProps = (reduxState) => {
 };
 
 
-export default withImages(connect(mapStateToProps, { updateImages, clearLoading, setCurrentCode })(AnonymizePage));
+export default withImages(connect(mapStateToProps, {
+  updateImages, clearLoading, setCurrentCode, clearUpload,
+})(AnonymizePage));

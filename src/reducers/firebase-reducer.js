@@ -20,6 +20,11 @@ const FirebaseReducer = (state = initialState, action) => {
       shownScreenshots: newShots,
     };
   }
+  case ActionTypes.CLEAR_CODE:
+    return {
+      ...state,
+      code: '',
+    };
   default:
     return state;
   }

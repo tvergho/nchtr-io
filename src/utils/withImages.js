@@ -43,7 +43,7 @@ function withImages(WrappedComponent) {
           this.setState({ loading: false });
         }
       }
-      if (this.props.filenames !== prevProps.filenames) {
+      if (this.props.filenames !== prevProps.filenames && this.props.filenames.length > prevProps.filenames.length) {
         this.loadFromFilenames(true);
       }
     }

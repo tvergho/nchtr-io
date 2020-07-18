@@ -56,8 +56,19 @@ export function getFilenamesFromFirebase(id) {
   };
 }
 
-function getChildByIndex(snapshot, index) {
-  return Object.keys(snapshot.val())[index];
+function getUniqueRandomChildKey(snapshot, shownScreenshots) {
+  let rand = Math.floor((Math.random() * snapshot.numChildren()));
+  console.log(rand);
+  let child = Object.keys(snapshot.val())[rand];
+
+  if (shownScreenshots.length < snapshot.numChildren()) {
+    while (child in shownScreenshots) {
+      rand = Math.floor((Math.random() * snapshot.numChildren()));
+      child = Object.keys(snapshot.val())[rand];
+    }
+  }
+
+  return child;
 }
 
 export function getRandomScreenshot() {
@@ -66,20 +77,15 @@ export function getRandomScreenshot() {
   return (dispatch, getState) => {
     screenshotsRef.once('value')
       .then((snapshot) => {
-        let rand = Math.floor((Math.random() * snapshot.numChildren()));
-        let child = getChildByIndex(snapshot, rand);
-
         const { shownScreenshots } = getState().response;
-
-        if (shownScreenshots.length < snapshot.numChildren()) {
-          while (child in getState().response.shownScreenshots) {
-            rand = Math.floor((Math.random() * snapshot.numChildren()));
-            child = getChildByIndex(snapshot, rand);
-          }
-        }
+        const child = getUniqueRandomChildKey(snapshot, shownScreenshots);
 
         dispatch({ type: ActionTypes.ADD_SHOWN_SCREENSHOT, payload: child });
         dispatch({ type: ActionTypes.SET_FILENAMES, payload: { filenames: snapshot.child(child).child('filenames').val() } });
       });
   };
+}
+
+export function clearCode() {
+  return { type: ActionTypes.CLEAR_CODE };
 }
