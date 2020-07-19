@@ -253,7 +253,6 @@ header {
     font-size: 18px;
     border-radius: 50px;
     padding: 0px 10px;
-    margin-left: 20px;
     height: 45px;
     color: rgba(0,0,0,0.7);
   }
@@ -263,6 +262,7 @@ header {
     border: none;
     width: 40%;
     text-align: center;
+    margin-right: 20px;
   }
 
   .response {
@@ -324,9 +324,13 @@ header {
   .container {
     width: 80vw !important;
   }
+  header {
+    flex-direction: column;
+  }
   .header-upload-container {
-    top: 100px;
-    left: calc(50vw - 132px);
+    position: relative;
+    margin-top: 20px;
+    right: 0px;
   }
   .title {
     font-size: 36px;
@@ -334,12 +338,14 @@ header {
   .subtitle, .blue-button {
     font-size: 24px;
   }
-  .main-image-display {
-    margin-top: 120px;
-  }
   .blue-modal {
     .modal-text {
       font-size: 32px;
+    }
+  }
+  .response-inputs {
+    input {
+      font-size: 14px;
     }
   }
 }
@@ -350,11 +356,6 @@ header {
   }
   .subtitle, .blue-button {
     font-size: 18px;
-  }
-  .response-inputs {
-    input {
-      font-size: 14px;
-    }
   }
 }
 

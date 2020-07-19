@@ -7,6 +7,7 @@ import { getRandomScreenshot } from '../actions';
 import { Loading } from '../components/anonymize';
 import { ScreenshotDisplay, ResponseBox } from '../components/display';
 import withImages from '../utils/withImages';
+import withResponses from '../utils/withResponses';
 
 class LandingPage extends Component {
   constructor(props) {
@@ -21,10 +22,10 @@ class LandingPage extends Component {
     return (
       <Container landing>
         {this.props.loading ? <Loading /> : <ScreenshotDisplay images={this.props.images} />}
-        <ResponseBox />
+        <ResponseBox responses={this.props.responses} loading={this.props.responsesLoading} />
       </Container>
     );
   }
 }
 
-export default withImages(connect(null, { getRandomScreenshot })(LandingPage));
+export default withResponses(withImages(connect(null, { getRandomScreenshot })(LandingPage)));

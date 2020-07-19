@@ -13,6 +13,7 @@ export const ActionTypes = {
   CLEAR_CODE: 'CLEAR_CODE',
   SET_RESPONSES: 'SET_RESPONSES',
   SET_RESPONSES_LOADING: 'SET_RESPONSES_LOADING',
+  CLEAR_FILENAMES: 'CLEAR_FILENAMES',
 };
 
 export * from './file-actions';

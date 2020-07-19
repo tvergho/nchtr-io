@@ -9,12 +9,19 @@ const Header = ({ landing }) => {
   const history = useHistory();
 
   const UploadHeader = () => {
+    const [value, setValue] = useState('');
+    const handleKeyPress = (event) => {
+      if (event.key === 'Enter') {
+        history.push(`/${value}`);
+      }
+    };
+
     return (
       <div className="header-upload-container">
         <button className="upload-header" type="button" onClick={() => { history.push('/upload'); }}>
           <FontAwesomeIcon icon={faCloudUploadAlt} color="white" size="2x" />
         </button>
-        <input type="text" placeholder="Enter your code" className="code-header" />
+        <input type="text" placeholder="Enter your code" className="code-header" value={value} onChange={(e) => { setValue(e.target.value); }} onKeyPress={handleKeyPress} />
       </div>
     );
   };

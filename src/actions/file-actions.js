@@ -134,6 +134,10 @@ export function clearLoading() {
   return { type: ActionTypes.CLEAR_IMAGE_LOADING };
 }
 
+export function clearFilenames() {
+  return { type: ActionTypes.CLEAR_FILENAMES };
+}
+
 export function clearUpload() {
   return { type: ActionTypes.CLEAR_UPLOAD };
 }

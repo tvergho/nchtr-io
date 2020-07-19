@@ -53,6 +53,11 @@ const FileReducer = (state = initialState, action) => {
       ...state,
       loading: [],
     };
+  case ActionTypes.CLEAR_FILENAMES:
+    return {
+      ...state,
+      filenames: [],
+    };
   case ActionTypes.CLEAR_UPLOAD:
     return {
       ...state,

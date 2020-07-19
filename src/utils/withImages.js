@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { swapFiles, getFilenamesFromFirebase } from '../actions';
+import { swapFiles, getFilenamesFromFirebase, clearFilenames } from '../actions';
 
 const BUCKET_URL = 'https://nchtr-photos-bucket.s3.amazonaws.com';
 const { Map } = require('immutable');
@@ -45,6 +45,11 @@ function withImages(WrappedComponent) {
       }
       if (this.props.filenames !== prevProps.filenames && this.props.filenames.length > prevProps.filenames.length) {
         this.loadFromFilenames(true);
+      }
+      if (this.props.match && this.props.match.params && this.props.match.params.id !== prevProps.match.params.id) {
+        this.props.clearFilenames();
+        this.setState({ loading: true, images: [] });
+        this.props.getFilenamesFromFirebase(this.props.match.params.id);
       }
     }
 
@@ -119,4 +124,4 @@ const mapStateToProps = (reduxState) => {
   };
 };
 
-export default compose(connect(mapStateToProps, { swapFiles, getFilenamesFromFirebase }), withImages);
+export default compose(connect(mapStateToProps, { swapFiles, getFilenamesFromFirebase, clearFilenames }), withImages);

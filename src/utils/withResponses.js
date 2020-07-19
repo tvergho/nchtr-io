@@ -35,6 +35,10 @@ function withResponses(WrappedComponent) {
       if (this.props.response.responses !== prevProps.response.responses) {
         this.setState({ responses: this.props.response.responses });
       }
+      if (this.props.match && this.props.match.params && this.props.match.params.id !== prevProps.match.params.id) {
+        this.setState({ loading: true, currentId: this.props.match.params.id, responses: [] });
+        this.props.getResponsesFromFirebase(this.props.match.params.id);
+      }
     }
 
     render() {

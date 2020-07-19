@@ -16,8 +16,8 @@ const ResponseBox = ({ responses, loading }) => {
   return (
     <div className="response-box">
       <div className="response-inputs">
-        <input type="text" className="screen-name" placeholder="enter a screen name" />
-        <input type="text" className="response" placeholder="what would you say?" />
+        <input type="text" className="screen-name" placeholder={window.innerWidth <= 768 ? 'screen name' : 'enter a screen name'} />
+        <input type="text" className="response" placeholder={window.innerWidth <= 768 ? 'response' : 'what would you say?'} />
         <button type="button" className="send-button">
           <FontAwesomeIcon icon={faArrowCircleUp} size="2x" color="#949191" />
         </button>
