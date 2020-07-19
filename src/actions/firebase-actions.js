@@ -3,16 +3,8 @@
 import firebase from 'firebase/app';
 import { ActionTypes } from './index';
 import 'firebase/database';
+import firebaseConfig from './firebase-config';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyA-y8SIbLVm4m42PGENqJjyWqbc__DLQPA',
-  authDomain: 'nchtr-io.firebaseapp.com',
-  databaseURL: 'https://nchtr-io.firebaseio.com',
-  projectId: 'nchtr-io',
-  storageBucket: 'nchtr-io.appspot.com',
-  messagingSenderId: '968123397685',
-  appId: '1:968123397685:web:5b455fdb26d6fcf4a1237c',
-};
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
