@@ -7,7 +7,7 @@ import Container from '../components/Container';
 import withImages from '../utils/withImages';
 import withResponses from '../utils/withResponses';
 import { Loading } from '../components/anonymize';
-import { ScreenshotDisplay, Modal, ResponseBox } from '../components/display';
+import { ScreenshotDisplay, CodeModal, ResponseBox } from '../components/display';
 import { clearCode } from '../actions';
 
 class DisplayPage extends Component {
@@ -42,7 +42,7 @@ class DisplayPage extends Component {
           {this.props.loading ? <Loading /> : <ScreenshotDisplay images={this.props.images} />}
           <ResponseBox responses={this.props.responses} loading={this.props.responsesLoading} addResponse={this.props.addResponse} />
         </Container>
-        <Modal code={this.props.code} display={this.state.modalShown} close={() => { this.setState({ modalShown: false }); }} />
+        <CodeModal code={this.props.code} display={this.state.modalShown} close={() => { this.setState({ modalShown: false }); }} />
       </>
     );
   }

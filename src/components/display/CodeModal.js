@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-const Modal = ({ code, display, close }) => {
+const CodeModal = ({ code, display, close }) => {
   const [delayedClose, setDelayedClose] = useState(display);
 
   useEffect(() => {
@@ -23,4 +23,4 @@ const Modal = ({ code, display, close }) => {
   );
 };
 
-export default Modal;
+export default CodeModal;

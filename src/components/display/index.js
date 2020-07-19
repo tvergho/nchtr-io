@@ -1,5 +1,5 @@
 import ScreenshotDisplay from './ScreenshotDisplay';
-import Modal from './Modal';
+import CodeModal from './CodeModal';
 import ResponseBox from './ResponseBox';
 
-export { ScreenshotDisplay, Modal, ResponseBox };
+export { ScreenshotDisplay, CodeModal, ResponseBox };
