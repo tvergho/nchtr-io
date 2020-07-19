@@ -58,7 +58,6 @@ function upload(useBase64) {
           },
           onUploadProgress: (progressEvent) => dispatch({ type: ActionTypes.SET_IMAGE_LOADING, payload: { index: i, progressEvent } }),
         };
-
         axios(options)
           .catch((error) => { console.log(error); });
       }

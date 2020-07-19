@@ -19,6 +19,7 @@ function withImages(WrappedComponent) {
         loading: true,
         retries: Map(),
         useBase64: false,
+        currentId: '',
       };
     }
 
@@ -27,9 +28,9 @@ function withImages(WrappedComponent) {
         this.loadFromBase64();
         this.setState({ useBase64: true });
       } else if (this.props.match && this.props.match.params && this.props.match.params.id) {
-        this.props.getFilenamesFromFirebase(this.props.match.params.id);
+        this.setState({ currentId: this.props.match.params.id });
       } else {
-        this.loadFromFilenames();
+        this.loadFromFilenames(true);
       }
     }
 
@@ -43,13 +44,18 @@ function withImages(WrappedComponent) {
           this.setState({ loading: false });
         }
       }
-      if (this.props.filenames !== prevProps.filenames && this.props.filenames.length > prevProps.filenames.length) {
+      if (this.props.currentShot !== prevProps.currentShot) {
+        this.setState({ currentId: this.props.currentShot });
+      }
+      if (this.state.currentId !== prevState.currentId) {
+        this.props.getFilenamesFromFirebase(this.state.currentId);
+      }
+      if (this.props.filenames !== prevProps.filenames) {
         this.loadFromFilenames(true);
       }
       if (this.props.match && this.props.match.params && this.props.match.params.id !== prevProps.match.params.id) {
         this.props.clearFilenames();
-        this.setState({ loading: true, images: [] });
-        this.props.getFilenamesFromFirebase(this.props.match.params.id);
+        this.setState({ loading: true, images: [], currentId: this.props.match.params.id });
       }
     }
 
@@ -60,7 +66,7 @@ function withImages(WrappedComponent) {
           img.onload = () => {
             this.setState((prevState) => {
               const images = [...prevState.images];
-              img.setAttribute('crossOrigin', 'Anonymous');
+              // img.setAttribute('crossOrigin', 'Anonymous');
               images[index] = img;
               return { images };
             });
@@ -75,7 +81,7 @@ function withImages(WrappedComponent) {
           };
           img.src = `${BUCKET_URL}/${name}`;
         });
-      }, noTimeout ? 0 : 1000);
+      }, noTimeout ? 300 : 1000);
     }
 
     loadFromBase64 = () => {
@@ -111,6 +117,7 @@ function withImages(WrappedComponent) {
           loading={this.state.loading}
           swap={this.swap}
           startLoading={() => { this.setState({ loading: true }); }}
+          clearImages={() => { this.setState({ images: [] }); }}
         />
       );
     }
@@ -121,6 +128,7 @@ const mapStateToProps = (reduxState) => {
   return {
     filenames: reduxState.file.filenames,
     base64: reduxState.file.base64,
+    currentShot: reduxState.response.currentShot,
   };
 };
 

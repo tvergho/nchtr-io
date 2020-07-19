@@ -40,7 +40,7 @@ class DisplayPage extends Component {
       <>
         <Container landing>
           {this.props.loading ? <Loading /> : <ScreenshotDisplay images={this.props.images} />}
-          <ResponseBox responses={this.props.responses} loading={this.props.responsesLoading} />
+          <ResponseBox responses={this.props.responses} loading={this.props.responsesLoading} addResponse={this.props.addResponse} />
         </Container>
         <Modal code={this.props.code} display={this.state.modalShown} close={() => { this.setState({ modalShown: false }); }} />
       </>

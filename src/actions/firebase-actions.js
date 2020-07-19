@@ -37,7 +37,6 @@ export function setCurrentCode() {
 
     axios(options)
       .then((response) => {
-        console.log(response);
         dispatch({ type: ActionTypes.SET_CURRENT_CODE, payload: response.data.code });
       });
   };
@@ -58,14 +57,17 @@ export function getFilenamesFromFirebase(id) {
 
 function getUniqueRandomChildKey(snapshot, shownScreenshots) {
   let rand = Math.floor((Math.random() * snapshot.numChildren()));
-  console.log(rand);
   let child = Object.keys(snapshot.val())[rand];
 
   if (shownScreenshots.length < snapshot.numChildren()) {
-    while (child in shownScreenshots) {
+    while (shownScreenshots.includes(child)) {
       rand = Math.floor((Math.random() * snapshot.numChildren()));
       child = Object.keys(snapshot.val())[rand];
     }
+  }
+  while (shownScreenshots[shownScreenshots.length - 1] === child) {
+    rand = Math.floor((Math.random() * snapshot.numChildren()));
+    child = Object.keys(snapshot.val())[rand];
   }
 
   return child;
@@ -75,13 +77,16 @@ export function getRandomScreenshot() {
   const screenshotsRef = db.ref('screenshots');
 
   return (dispatch, getState) => {
+    dispatch({ type: ActionTypes.CLEAR_FILENAMES });
+
     screenshotsRef.once('value')
       .then((snapshot) => {
         const { shownScreenshots } = getState().response;
         const child = getUniqueRandomChildKey(snapshot, shownScreenshots);
+        console.log(child);
+
 
         dispatch({ type: ActionTypes.ADD_SHOWN_SCREENSHOT, payload: child });
-        dispatch({ type: ActionTypes.SET_FILENAMES, payload: { filenames: snapshot.child(child).child('filenames').val() } });
       });
   };
 }
@@ -110,5 +115,55 @@ export function getResponsesFromFirebase(id) {
       .finally(() => {
         dispatch({ type: ActionTypes.SET_RESPONSES_LOADING, payload: false });
       });
+  };
+}
+
+export function addResponse(name, message, screenshotId) {
+  const options = {
+    method: 'post',
+    url: `${API_URL}/response`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
+      name,
+      message,
+      screenshotId,
+    },
+  };
+
+  axios(options);
+}
+
+export function subscribeToResponses(screenshotId) {
+  return (dispatch) => {
+    db.ref('responses').child(screenshotId).on('value', (snapshot) => {
+      if (snapshot.val()) {
+        const responses = [];
+        Object.keys(snapshot.val()).sort().forEach((key) => {
+          responses.push(snapshot.val()[key]);
+        });
+
+        dispatch({ type: ActionTypes.SET_RESPONSES, payload: responses });
+      }
+    });
+  };
+}
+
+export function unsubscribeToResponses(screenshotId) {
+  if (screenshotId.length > 0) {
+    db.ref('responses').child(screenshotId).off();
+  }
+}
+
+export function incrementShot() {
+  return {
+    type: ActionTypes.INCREMENT_SHOT,
+  };
+}
+
+export function decrementShot() {
+  return {
+    type: ActionTypes.DECREMENT_SHOT,
   };
 }

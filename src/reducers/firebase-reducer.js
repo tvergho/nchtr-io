@@ -6,6 +6,7 @@ const initialState = {
   currentShot: '',
   responses: [],
   responsesLoading: true,
+  currentShowIndex: 0,
 };
 
 const FirebaseReducer = (state = initialState, action) => {
@@ -22,6 +23,7 @@ const FirebaseReducer = (state = initialState, action) => {
       ...state,
       shownScreenshots: newShots,
       currentShot: action.payload,
+      currentShowIndex: newShots.length - 1,
     };
   }
   case ActionTypes.CLEAR_CODE:
@@ -39,6 +41,32 @@ const FirebaseReducer = (state = initialState, action) => {
       ...state,
       responsesLoading: action.payload,
     };
+  case ActionTypes.INCREMENT_SHOT: {
+    if (state.currentShowIndex < state.shownScreenshots.length - 1) {
+      return {
+        ...state,
+        currentShowIndex: state.currentShowIndex + 1,
+        currentShot: state.shownScreenshots[state.currentShowIndex + 1],
+      };
+    } else {
+      return {
+        ...state,
+      };
+    }
+  }
+  case ActionTypes.DECREMENT_SHOT: {
+    if (state.currentShowIndex > 0) {
+      return {
+        ...state,
+        currentShowIndex: state.currentShowIndex - 1,
+        currentShot: state.shownScreenshots[state.currentShowIndex - 1],
+      };
+    } else {
+      return {
+        ...state,
+      };
+    }
+  }
   default:
     return state;
   }

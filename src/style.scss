@@ -313,6 +313,16 @@ header {
   }
 }
 
+.main-increment {
+  position: absolute;
+  right: -100px;
+}
+
+.main-decrement {
+  position: absolute;
+  left: -100px;
+}
+
 @media screen and (max-height: 900px) {
   .title {
     margin-top: 15px;
@@ -347,6 +357,12 @@ header {
     input {
       font-size: 14px;
     }
+  }
+  .main-increment {
+    right: -50px;
+  }
+  .main-decrement {
+    left: -50px;
   }
 }
 

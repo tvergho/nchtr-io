@@ -92,15 +92,19 @@ const DrawField = ({ images, swap, onSubmit }) => {
           imageURLs[i] = url;
         });
       } else { // Create a canvas to extract the data URL.
-        const image = images[i];
-        const canvas = document.createElement('canvas');
-        canvas.width = image.width;
-        canvas.height = image.height;
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
 
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(image, 0, 0);
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
 
-        imageURLs[i] = canvas.toDataURL('image/png');
+          imageURLs[i] = canvas.toDataURL('image/png');
+        };
+        img.setAttribute('crossOrigin', 'Anonymous');
+        img.src = images[i].src;
       }
     }
 

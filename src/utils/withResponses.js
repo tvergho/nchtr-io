@@ -5,7 +5,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getResponsesFromFirebase } from '../actions';
+import {
+  getResponsesFromFirebase, addResponse, subscribeToResponses, unsubscribeToResponses,
+} from '../actions';
 
 function withResponses(WrappedComponent) {
   return class extends Component {
@@ -27,9 +29,11 @@ function withResponses(WrappedComponent) {
 
     componentDidUpdate(prevProps, prevState) {
       if (this.props.response.currentShot !== prevProps.response.currentShot) {
-        this.setState({ currentId: this.props.response.currentShot });
+        this.setState({ currentId: this.props.response.currentShot, responses: [], loading: true });
       }
       if (this.state.currentId !== prevState.currentId) {
+        unsubscribeToResponses(prevState.currentId);
+        this.props.subscribeToResponses(this.state.currentId);
         this.props.getResponsesFromFirebase(this.state.currentId);
       }
       if (this.props.response.responses !== prevProps.response.responses) {
@@ -37,13 +41,29 @@ function withResponses(WrappedComponent) {
       }
       if (this.props.match && this.props.match.params && this.props.match.params.id !== prevProps.match.params.id) {
         this.setState({ loading: true, currentId: this.props.match.params.id, responses: [] });
-        this.props.getResponsesFromFirebase(this.props.match.params.id);
       }
+    }
+
+    componentWillUnmount() {
+      unsubscribeToResponses(this.state.currentId);
+    }
+
+    addResponse = (name, message) => {
+      addResponse(name, message, this.state.currentId);
+      this.setState((prevState) => {
+        const responses = [...prevState.responses];
+        responses.push({ name, message });
+        return { responses };
+      });
     }
 
     render() {
       return (
-        <WrappedComponent {...this.props} responsesLoading={this.props.response.responsesLoading} responses={this.state.responses} />
+        <WrappedComponent {...this.props}
+          responsesLoading={this.props.response.responsesLoading}
+          responses={this.state.responses}
+          addResponse={this.addResponse}
+        />
       );
     }
   };
@@ -55,4 +75,4 @@ const mapStateToProps = (reduxState) => {
   };
 };
 
-export default compose(connect(mapStateToProps, { getResponsesFromFirebase }), withResponses);
+export default compose(connect(mapStateToProps, { getResponsesFromFirebase, subscribeToResponses }), withResponses);
