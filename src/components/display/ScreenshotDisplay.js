@@ -10,7 +10,7 @@ const ScreenshotDisplay = ({
 
   return (
     <>
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+      <div className="main-image-container">
         {landing ? (
           <button type="button"
             className="transparent main-decrement"

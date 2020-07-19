@@ -51,12 +51,12 @@ button:active {
 
 .container {
   width: 50vw;
-  height: calc(100vh - 90px);
+  min-height: calc(100vh - 90px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-bottom: 65px;
+  padding-bottom: 20px;
 }
 
 header {
@@ -162,10 +162,17 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-top: 20px;
 
   svg {
     margin-top: 20px;
   }
+}
+
+.main-image-container {
+  position: relative;
+  display: flex; 
+  align-items: center;
 }
 
 .main-image-display {
@@ -327,6 +334,40 @@ header {
   .title {
     margin-top: 15px;
     font-size: 36px;
+  }
+  .logo {
+    font-size: 24px;
+    height: 50px;
+  }
+  .main-image-display {
+    height: 50vh;
+  }
+  .header-upload-container {
+    margin-top: 10px !important;
+
+    .code-header {
+      font-size: 14px;
+      height: 40px;
+    }
+    .upload-header {
+      height: 50px;
+      width: 50px;
+    }
+  }
+  .responses {
+    max-height: 30vh;
+  }
+  .blue-modal {
+    top: 15%;
+    .modal-text {
+      font-size: 26px !important;
+    }
+    .modal-code {
+      letter-spacing: 5px;
+    }
+  }
+  .send-button {
+    right: 0px !important;
   }
 }
 
