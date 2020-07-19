@@ -237,6 +237,82 @@ header {
   animation-fill-mode: forwards;
 }
 
+.response-box {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.response-inputs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  input {
+    font-size: 18px;
+    border-radius: 50px;
+    padding: 0px 10px;
+    margin-left: 20px;
+    height: 45px;
+    color: rgba(0,0,0,0.7);
+  }
+
+  .screen-name {
+    background-color: rgba(142, 142, 147, 0.12);
+    border: none;
+    width: 40%;
+    text-align: center;
+  }
+
+  .response {
+    background-color: #FAFAFA;
+    border: 1px solid #C8C7CC;
+    width: 60%;
+    padding-left: 20px;
+  }
+
+  .send-button {
+    position: absolute;
+    right: 10px;
+    background-color: transparent;
+    border-radius: 100px;
+  }
+}
+
+.responses {
+  padding: 20px;
+  max-height: 20vh;
+  overflow-y: scroll;
+}
+
+.response-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 15px;
+
+  .response-name {
+    color: rgba(109, 114, 120, 0.8);
+    font-weight: 400;
+    font-size: 18px;
+  }
+
+  .response-message {
+    background-color: $base-color;
+    border-radius: 20px;
+    padding: 10px 30px;
+    color: white;
+    font-weight: 400;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+  }
+}
+
 @media screen and (max-height: 900px) {
   .title {
     margin-top: 15px;
@@ -261,6 +337,11 @@ header {
   .main-image-display {
     margin-top: 120px;
   }
+  .blue-modal {
+    .modal-text {
+      font-size: 32px;
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -269,6 +350,11 @@ header {
   }
   .subtitle, .blue-button {
     font-size: 18px;
+  }
+  .response-inputs {
+    input {
+      font-size: 14px;
+    }
   }
 }
 

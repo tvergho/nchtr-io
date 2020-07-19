@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Container from '../components/Container';
 import { getRandomScreenshot } from '../actions';
 import { Loading } from '../components/anonymize';
-import { ScreenshotDisplay } from '../components/display';
+import { ScreenshotDisplay, ResponseBox } from '../components/display';
 import withImages from '../utils/withImages';
 
 class LandingPage extends Component {
@@ -21,6 +21,7 @@ class LandingPage extends Component {
     return (
       <Container landing>
         {this.props.loading ? <Loading /> : <ScreenshotDisplay images={this.props.images} />}
+        <ResponseBox />
       </Container>
     );
   }

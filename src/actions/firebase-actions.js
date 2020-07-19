@@ -26,7 +26,7 @@ export function setCurrentCode() {
 
     const options = {
       method: 'post',
-      url: `${API_URL}/responses`,
+      url: `${API_URL}/screenshots`,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -88,4 +88,27 @@ export function getRandomScreenshot() {
 
 export function clearCode() {
   return { type: ActionTypes.CLEAR_CODE };
+}
+
+export function getResponsesFromFirebase(id) {
+  const responsesRef = db.ref('responses');
+
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.SET_RESPONSES_LOADING, payload: true });
+
+    responsesRef.child(id).once('value')
+      .then((snapshot) => {
+        if (snapshot.val()) {
+          const responses = [];
+          Object.keys(snapshot.val()).sort().forEach((key) => {
+            responses.push(snapshot.val()[key]);
+          });
+
+          dispatch({ type: ActionTypes.SET_RESPONSES, payload: responses });
+        }
+      })
+      .finally(() => {
+        dispatch({ type: ActionTypes.SET_RESPONSES_LOADING, payload: false });
+      });
+  };
 }

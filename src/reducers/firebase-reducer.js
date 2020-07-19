@@ -3,6 +3,9 @@ import { ActionTypes } from '../actions';
 const initialState = {
   code: '',
   shownScreenshots: [],
+  currentShot: '',
+  responses: [],
+  responsesLoading: true,
 };
 
 const FirebaseReducer = (state = initialState, action) => {
@@ -18,12 +21,23 @@ const FirebaseReducer = (state = initialState, action) => {
     return {
       ...state,
       shownScreenshots: newShots,
+      currentShot: action.payload,
     };
   }
   case ActionTypes.CLEAR_CODE:
     return {
       ...state,
       code: '',
+    };
+  case ActionTypes.SET_RESPONSES:
+    return {
+      ...state,
+      responses: action.payload,
+    };
+  case ActionTypes.SET_RESPONSES_LOADING:
+    return {
+      ...state,
+      responsesLoading: action.payload,
     };
   default:
     return state;
