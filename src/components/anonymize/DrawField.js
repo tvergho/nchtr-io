@@ -101,7 +101,7 @@ const DrawField = ({ images, swap, onSubmit }) => {
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0);
 
-          imageURLs[i] = canvas.toDataURL('image/png');
+          imageURLs[i] = canvas.toDataURL(images[i].type);
         };
         img.setAttribute('crossOrigin', 'Anonymous');
         img.src = images[i].src;
