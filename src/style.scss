@@ -183,9 +183,9 @@ header {
 
 .main-image-display {
   margin-top: 30px;
-  height: 50vh;
+  height: 80vh;
   max-width: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .backdrop {
@@ -359,7 +359,8 @@ header {
     height: 50px;
   }
   .main-image-display {
-    height: 50vh;
+    height: 65vh !important;
+    max-width: 70vw !important;
   }
   .header-upload-container {
     margin-top: 10px !important;

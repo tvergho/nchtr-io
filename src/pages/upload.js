@@ -30,7 +30,7 @@ class UploadPage extends Component {
 
   render() {
     return (
-      <Dropzone ref={dropzoneRef} onDrop={this.onDrop} accept="image/jpeg, image/png">
+      <Dropzone ref={dropzoneRef} onDrop={this.onDrop} accept="image/png">
         {({ getRootProps, getInputProps, isDragActive }) => (
           <>
             <Container

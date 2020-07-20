@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import ModalImage from 'react-modal-image';
+import { connect } from 'react-redux';
 import SecondaryArrows from '../SecondaryArrows';
 
 const ScreenshotDisplay = ({
-  images, increment, decrement, decrementDisabled, landing,
+  images, increment, decrement, decrementDisabled, landing, code,
 }) => {
   const [current, setCurrent] = useState(0);
 
@@ -26,7 +28,7 @@ const ScreenshotDisplay = ({
           </button>
         ) : <></>}
 
-        <img src={images[current].src} alt="Current screenshot" className="main-image-display" />
+        <ModalImage small={images[current].src} medium={images[current].src} className="main-image-display" hideDownload alt={code} />
 
         {landing ? (
           <button type="button"
@@ -51,4 +53,10 @@ const ScreenshotDisplay = ({
   );
 };
 
-export default ScreenshotDisplay;
+const mapStateToProps = (reduxState) => {
+  return {
+    code: reduxState.response.currentShot,
+  };
+};
+
+export default connect(mapStateToProps, null)(ScreenshotDisplay);
