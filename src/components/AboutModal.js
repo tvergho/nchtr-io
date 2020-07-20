@@ -22,7 +22,7 @@ const AboutModal = ({ display, close }) => {
         </div>
         <div className="modal-text info">
           Nchtr.io was designed by Rishab Yeddula and developed by Tyler Vergho.
-          The Github repo is accessible <a href="https://github.com/tvergho/nchtr-io/" target="_blank" rel="noopener noreferrer">here</a>.
+          The GitHub repo is accessible <a href="https://github.com/tvergho/nchtr-io/" target="_blank" rel="noopener noreferrer">here</a>.
         </div>
       </div>
     </>

@@ -50,7 +50,7 @@ const ResponseBox = ({ responses, loading, addResponse }) => {
         </button>
       </div>
 
-      <div className="responses">
+      <div className="responses" onScroll={(e) => { e.stopPropagation(); }}>
         {!loading ? responses.map((response) => {
           return <ResponseItem name={response.name} message={response.message} key={`${response.name}-${response.message}`} />;
         }) : Array.from(Array(3).keys()).map((num) => {
