@@ -21,7 +21,6 @@ const AboutModal = ({ display, close }) => {
           Crowdsource your texts so you&apos;ll always have the perfect response.
         </div>
         <div className="modal-text info">
-          Nchtr.io was designed by Rishab Yeddula and developed by Tyler Vergho.
           The GitHub repo is accessible <a href="https://github.com/tvergho/nchtr-io/" target="_blank" rel="noopener noreferrer">here</a>.
         </div>
       </div>
