@@ -8,6 +8,9 @@ import BlueButton from '../BlueButton';
 
 const { fabric } = require('fabric');
 
+const HEIGHT_MULTIPLIER = 0.55;
+const WIDTH_MULTIPLIER = 0.6;
+
 // Keyboard arrow codes.
 const RIGHT_ARROW = 39;
 const LEFT_ARROW = 37;
@@ -49,24 +52,47 @@ const DrawField = ({ images, swap, onSubmit }) => {
 
   // Triggered when the window resizes.
   const handleResize = () => {
-    const newHeight = 0.55 * window.innerHeight;
+    const newHeight = HEIGHT_MULTIPLIER * window.innerHeight;
+    const newWidth = WIDTH_MULTIPLIER * window.innerWidth;
     const canvas = sketch.current._fc;
-    const newRatio = newHeight / images[current].height; // Aspect ratio is bound by the window's height.
+    // canvas.setHeight(newHeight);
+    // canvas.setWidth(newWidth);
+    let newRatio = 0;
+    const json = sketch.current.toJSON();
+    console.log(json);
+
+    if (images[current].height > canvas.height) {
+      newRatio = newHeight / images[current].height;
+      canvas.setWidth(images[current].width * newRatio);
+    } else {
+      newRatio = newWidth / images[current].width;
+      console.log(newRatio);
+      canvas.setHeight(images[current].height * newRatio);
+    }
 
     // Scale the background image by converting to JSON.
-    const json = sketch.current.toJSON();
     json.objects[0].scaleX = newRatio;
     json.objects[0].scaleY = newRatio;
-    canvas.setWidth(images[current].width * newRatio);
     sketch.current.fromJSON(json);
 
     // Convert and scale the other canvases.
     for (const [index, value] of Object.entries(canvases)) {
-      const ratio = newHeight / images[index].height;
+      let ratio = 0;
+
+      if (images[index].height > canvas.height) {
+        ratio = newHeight / images[index].height;
+      } else {
+        ratio = newWidth / images[index].width;
+      }
+
       value.objects[0].scaleX = ratio;
       value.objects[0].scaleY = ratio;
       const newCanvas = new fabric.Canvas().loadFromJSON(value, () => {
-        newCanvas.setWidth(images[index].width * ratio);
+        if (images[index].height > canvas.height) {
+          newCanvas.setWidth(images[index].width * ratio);
+        } else {
+          newCanvas.setHeight(images[index].height * ratio);
+        }
         canvases[index] = newCanvas.toJSON();
       });
     }
@@ -150,9 +176,17 @@ const DrawField = ({ images, swap, onSubmit }) => {
   // Called to pull a canvas with the user's edits from memory.
   const setCanvas = (index) => {
     const canvas = sketch.current._fc;
-    canvas.setWidth(images[index].width * (canvas.height / images[index].height));
-    canvas.clear();
 
+    canvas.setHeight(HEIGHT_MULTIPLIER * window.innerHeight);
+    canvas.setWidth(WIDTH_MULTIPLIER * window.innerWidth);
+
+    if (images[index].height > canvas.height) {
+      canvas.setWidth(images[index].width * (canvas.height / images[index].height));
+    } else {
+      canvas.setHeight(images[index].height * (canvas.width / images[index].width));
+    }
+
+    canvas.clear();
     const json = canvases[index];
     sketch.current.fromJSON(json);
     canvas.renderAll();
@@ -172,10 +206,20 @@ const DrawField = ({ images, swap, onSubmit }) => {
         crossOrigin: 'Anonymous', // Necessary to avoid base64 security errors.
       });
 
-      oImg.scaleToHeight(canvas.height);
+      canvas.setHeight(HEIGHT_MULTIPLIER * window.innerHeight);
+      canvas.setWidth(WIDTH_MULTIPLIER * window.innerWidth);
+
+      if (oImg.height <= canvas.height) {
+        const newHeight = oImg.height * (canvas.width / oImg.width);
+        oImg.scaleToWidth(canvas.width);
+        canvas.setHeight(newHeight);
+        console.log(canvas.width, newHeight, oImg);
+      } else {
+        oImg.scaleToHeight(canvas.height);
+        canvas.setWidth(newWidth);
+      }
       canvas.clear();
       canvas.add(oImg);
-      canvas.setWidth(newWidth);
       canvas.renderAll();
     }
   };
