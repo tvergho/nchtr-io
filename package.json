@@ -44,7 +44,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@fortawesome/react-fontawesome": "^0.1.11",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "fabric": "^3.6.3",
     "firebase": "^7.16.1",
     "immutable": "^4.0.0-rc.12",
